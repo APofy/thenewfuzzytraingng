@@ -1,0 +1,25 @@
+name: OsobnyStrazca
+options:
+  bundleIdPrefix: sk.osobny-strazca
+  deploymentTarget:
+    iOS: "16.0"
+targets:
+  OsobnyStrazca:
+    type: application
+    platform: iOS
+    deploymentTarget: "16.0"
+    sources:
+      - path: OsobnyStrazca_iOS
+    info:
+      path: OsobnyStrazca-Info.plist
+      properties:
+        CFBundleDisplayName: Osobný Strážca
+        NSBluetoothAlwaysUsageDescription: "Bluetooth sa používa na spojenie so zariadením Osobný Strážca."
+        NSBluetoothPeripheralUsageDescription: "Bluetooth sa používa na spojenie so zariadením Osobný Strážca."
+        UIBackgroundModes:
+          - bluetooth-central
+        UILaunchScreen: {}
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: sk.osobny-strazca.app
+        SWIFT_VERSION: "5.0"
