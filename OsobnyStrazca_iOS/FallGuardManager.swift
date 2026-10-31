@@ -11,7 +11,7 @@ final class FallGuardManager: NSObject, ObservableObject {
     @Published private(set) var isConnected = false
     @Published private(set) var alarmActive = false
     @Published private(set) var statusText = "Čaká sa na ESP32"
-    @Published private(set) var lastEventText = "Zatiaľ žiadne udalosti."
+    @Published private(set) var lastEventText = "Zatiaľ nebola zaznamenaná žiadna udalosť."
     @Published private(set) var lastEventDate: Date?
     @Published private(set) var connectionText = "Vyhľadáva sa zariadenie…"
 
@@ -43,7 +43,7 @@ final class FallGuardManager: NSObject, ObservableObject {
         sendCommand("CANCEL")
         alarmActive = false
         statusText = "Alarm bol zrušený"
-        lastEventText = "Zrušenie alarmu odoslané zariadeniu."
+        lastEventText = "Požiadavka na zrušenie alarmu odoslaná"
         lastEventDate = Date()
     }
 
@@ -57,26 +57,36 @@ final class FallGuardManager: NSObject, ObservableObject {
     private func handleEvent(_ rawValue: String) {
         let event = rawValue.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         lastEventDate = Date()
-        lastEventText = rawValue
 
         switch event {
         case "SYSTEM_PRIPRAVENY":
             statusText = "Systém je pripravený"
+            lastEventText = "Systém je pripravený"
         case "PAD_DETEKTOVANY", "FALL_DETECTED":
             alarmActive = true
-            statusText = "POZOR – detegovaný pád!"
-            sendLocalNotification(title: "Osobný Strážca", body: "Bol detegovaný pád! Skontrolujte, či je všetko v poriadku.")
+            statusText = "Pád zaznamenaný – skontrolujte používateľa"
+            lastEventText = "Pád zaznamenaný"
+            sendLocalNotification(
+                title: "Pád zaznamenaný",
+                body: "Zariadenie zaznamenalo možný pád. Skontrolujte, či je používateľ v poriadku."
+            )
             sendCommand("ACK")
         case "TEST_ALARM_TLACIDLO":
             alarmActive = true
-            statusText = "Testovací alarm aktívny"
-            sendLocalNotification(title: "Osobný Strážca – test", body: "Testovací alarm bol aktivovaný tlačidlom.")
+            statusText = "Pomoc bola privolaná"
+            lastEventText = "Používateľ privolal pomoc tlačidlom"
+            sendLocalNotification(
+                title: "Žiadosť o pomoc – Osobný Strážca",
+                body: "Používateľ aktivoval tlačidlo na privolanie pomoci. Skontrolujte, či potrebuje pomoc."
+            )
             sendCommand("ACK")
         case "ALARM_ZRUSENY":
             alarmActive = false
             statusText = "Alarm bol zrušený"
+            lastEventText = "Alarm bol zrušený"
         default:
             statusText = "Prijatá udalosť"
+            lastEventText = "Prijatá neznáma udalosť"
         }
     }
 

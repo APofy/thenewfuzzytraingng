@@ -15,3 +15,12 @@ NOTES
 - The source is not yet tested by Xcode in this environment. If the build fails, open the failed workflow and copy the first relevant error from the build log.
 - Bluetooth and notifications must be tested on a real iPhone with the ESP32. Background behavior is subject to iOS restrictions.
 - This is a school-project starter, not a certified safety device.
+
+
+LATEST APP TEXT UPDATE
+- Fall events are now displayed as “Pád zaznamenaný”.
+- The app keeps the ESP32 BLE event identifier PAD_DETEKTOVANY unchanged; only the text shown in the app and notification has changed.
+- The fall notification explains that a possible fall was recorded and asks the recipient to check on the user.
+- Test, ready, and alarm-cancel events now show readable Slovak descriptions instead of raw firmware codes.
+
+To publish this update, replace the files in your GitHub repository with the updated package contents and run the GitHub Actions workflow again. Install the newly built IPA over the previous build (or remove the old app first if your sideloading tool requires it).

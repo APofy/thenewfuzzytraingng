@@ -39,7 +39,7 @@ struct ContentView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 14))
 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Posledná udalosť")
+                    Text("Posledná zaznamenaná udalosť")
                         .font(.headline)
                     Text(fallGuard.lastEventText)
                         .font(.subheadline)
@@ -59,7 +59,7 @@ struct ContentView: View {
                     Button(role: .destructive) {
                         fallGuard.cancelAlarm()
                     } label: {
-                        Label("Potvrdiť a zrušiť alarm", systemImage: "checkmark.circle")
+                        Label("Potvrdiť a zrušiť alarm", systemImage: "checkmark.circle.fill")
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.borderedProminent)
